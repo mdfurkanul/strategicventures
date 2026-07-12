@@ -1,0 +1,108 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../data/site';
+
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+
+// 5 approach elements arranged as a pentagon cycle
+const steps = [
+  {
+    icon: 'target' as const,
+    color: 'navy' as const,
+    title: locale === 'sv' ? 'Strategiskt tänkande' : 'Strategic thinking',
+    desc:  locale === 'sv' ? 'Tydliga strategier för hållbar tillväxt.' : 'Clear strategies for sustainable growth.',
+  },
+  {
+    icon: 'lightbulb' as const,
+    color: 'growth' as const,
+    title: locale === 'sv' ? 'Innovation' : 'Innovation',
+    desc:  locale === 'sv' ? 'Idéer till kommersiella produkter.' : 'Ideas into commercial products.',
+  },
+  {
+    icon: 'handshake' as const,
+    color: 'sky' as const,
+    title: locale === 'sv' ? 'Samverkan' : 'Collaboration',
+    desc:  locale === 'sv' ? 'Starka partnerskap mellan företag och forskning.' : 'Strong partnerships across business and research.',
+  },
+  {
+    icon: 'check' as const,
+    color: 'navy' as const,
+    title: locale === 'sv' ? 'Implementering' : 'Implementation',
+    desc:  locale === 'sv' ? 'Vi stödjer genom hela genomförandet.' : 'We support through delivery, not just advice.',
+  },
+  {
+    icon: 'leaf' as const,
+    color: 'growth' as const,
+    title: locale === 'sv' ? 'Hållbarhet' : 'Sustainability',
+    desc:  locale === 'sv' ? 'Integrerat i allt vi gör.' : 'Embedded in everything we do.',
+  },
+];
+
+const accent = {
+  navy:   { ring: 'ring-navy-200',   text: 'text-navy',   bg: 'bg-navy-50',   stroke: '#2A3A8F' },
+  sky:    { ring: 'ring-sky-200',    text: 'text-sky-600',bg: 'bg-sky-50',    stroke: '#34B5E5' },
+  growth: { ring: 'ring-growth-200', text: 'text-growth-600', bg: 'bg-growth-50', stroke: '#6BBE44' },
+};
+
+const centerLabel = locale === 'sv' ? 'Vårt arbetssätt' : 'Our approach';
+const cycleHint = locale === 'sv' ? 'En kontinuerlig cykel' : 'A continuous cycle';
+
+// Pentagon vertex angles (in degrees, starting at top): 90, 162, 234, 306, 18
+// For position as %, we compute approximate coordinates
+const positions = [
+  { top: '2%',  left: '50%' },  // top
+  { top: '34%', left: '95%' },  // top-right
+  { top: '85%', left: '75%' },  // bottom-right
+  { top: '85%', left: '25%' },  // bottom-left
+  { top: '34%', left: '5%' },   // top-left
+];
+---
+<div class="relative mx-auto aspect-square w-full max-w-2xl">
+  <!-- Pentagon connecting lines (SVG) -->
+  <svg class="absolute inset-0 h-full w-full" viewBox="0 0 500 500" preserveAspectRatio="none" aria-hidden="true">
+    <!-- 5 lines forming the pentagon cycle: top → TR → BR → BL → TL → top -->
+    <g stroke-width="1.5" fill="none" stroke-linecap="round" class="cycle-lines">
+      <line x1="250" y1="35"  x2="455" y2="185" stroke="#2A3A8F" opacity="0.4"/>
+      <line x1="455" y1="185" x2="380" y2="425" stroke="#6BBE44" opacity="0.4"/>
+      <line x1="380" y1="425" x2="120" y2="425" stroke="#34B5E5" opacity="0.4"/>
+      <line x1="120" y1="425" x2="45"  y2="185" stroke="#2A3A8F" opacity="0.4"/>
+      <line x1="45"  y1="185" x2="250" y2="35"  stroke="#6BBE44" opacity="0.4"/>
+    </g>
+
+    <!-- Arrow markers at line midpoints showing cycle direction (clockwise) -->
+    <g fill="#2A3A8F" opacity="0.5">
+      <polygon points="350,105 348,95 358,100" />
+      <polygon points="430,310 437,317 422,318" />
+      <polygon points="245,430 245,420 252,425" />
+      <polygon points="70,310 78,317 63,318" />
+      <polygon points="160,105 152,95 162,100" />
+    </g>
+  </svg>
+
+  <!-- Center label -->
+  <div class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 text-center">
+    <div class="flex h-20 w-32 flex-col items-center justify-center rounded-2xl bg-white shadow-md ring-1 ring-navy-100 sm:h-24 sm:w-40">
+      <Icon name="sparkles" class="h-5 w-5 text-navy-300" />
+      <p class="mt-1 font-serif text-sm font-semibold text-navy sm:text-base">{centerLabel}</p>
+      <p class="font-mono text-[9px] uppercase tracking-wider text-ink/40">{cycleHint}</p>
+    </div>
+  </div>
+
+  <!-- 5 pentagon nodes -->
+  {steps.map((step, i) => {
+    const a = accent[step.color];
+    const pos = positions[i];
+    return (
+      <div class="absolute z-10 -translate-x-1/2 -translate-y-1/2" style={`top:${pos.top}; left:${pos.left};`}>
+        <div class="group flex w-32 flex-col items-center text-center sm:w-40">
+          <div class={`flex h-14 w-14 items-center justify-center rounded-full bg-white shadow-md ring-1 ${a.ring} transition duration-300 group-hover:scale-110 sm:h-16 sm:w-16`}>
+            <Icon name={step.icon} class={`h-6 w-6 ${a.text} sm:h-7 sm:w-7`} />
+          </div>
+          <p class={`mt-2 font-serif text-xs font-semibold leading-tight ${a.text} sm:text-sm`}>{step.title}</p>
+          <p class="mt-0.5 text-[10px] leading-tight text-ink/60 sm:text-xs">{step.desc}</p>
+        </div>
+      </div>
+    );
+  })}
+</div>

@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import PageHero from '../../../components/PageHero.astro';
 import ServiceCard from '../../../components/ServiceCard.astro';
 import CTASection from '../../../components/CTASection.astro';
+import JourneyDiagram from '../../../components/JourneyDiagram.astro';
+import Breadcrumbs from '../../../components/Breadcrumbs.astro';
 import { getUI } from '../../../data/i18n';
 import { services } from '../../../data/services';
 
@@ -11,9 +13,33 @@ const t = getUI(locale);
 const path = '/services';
 ---
 <BaseLayout locale={locale} path={path} title={`${t.services.heroTitle} | Strategic Ventures`} description={t.services.heroSubtitle}>
+  <Breadcrumbs items={[{ label: t.nav.home, href: '/en/' }, { label: t.nav.services }]} />
   <PageHero eyebrow={t.nav.services} title={t.services.heroTitle} subtitle={t.services.heroSubtitle} />
+
+  <section class="bg-gradient-to-b from-navy-50/40 to-white border-b border-navy-100">
+    <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+      <div class="mx-auto mb-10 max-w-2xl text-center">
+        <p data-reveal class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy ring-1 ring-navy-100">
+          <span class="h-1.5 w-1.5 rounded-full bg-navy"></span>
+          From idea to sustainable growth
+        </p>
+        <h2 data-reveal class="mt-5 font-serif text-3xl font-semibold text-navy sm:text-4xl">Our journey in seven steps</h2>
+        <p data-reveal class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink/70 sm:text-lg">
+          We partner with you through the entire journey — from the initial idea and strategy through innovation, funding, market entry and long-term capability building.
+        </p>
+      </div>
+      <div data-reveal class="mt-12 overflow-x-auto">
+        <JourneyDiagram locale={locale} />
+      </div>
+    </div>
+  </section>
+
   <section class="bg-white">
     <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="mb-10 max-w-2xl">
+        <p data-reveal class="text-xs font-semibold uppercase tracking-wider text-sky-600">{t.nav.services}</p>
+        <h2 data-reveal class="mt-2 font-serif text-3xl font-semibold text-navy sm:text-4xl">Explore every service area</h2>
+      </div>
       <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {services.map((service, i) => (
           <div data-reveal data-reveal-delay={(i % 3) * 100}>

@@ -1,14 +1,23 @@
 ---
 import type { Locale } from '../data/site';
+import { translatePath } from '../data/routes';
 
 export interface Props {
   locale: Locale;
-  path: string; // pathname WITHOUT locale prefix
+  path: string; // current page's path, in the CURRENT locale's slug (e.g. '/om-oss' or '/about')
 }
 const { locale, path } = Astro.props;
 const otherLocale: Locale = locale === 'sv' ? 'en' : 'sv';
+
+// Translate the current locale's path to the other locale's equivalent path
+const otherLocalePath = translatePath(locale, path);
+
+// Build the final href. English pages live under /en; Swedish at root.
 const otherHref =
-  otherLocale === 'en' ? `/en${path === '/' ? '' : path}` : path;
+  otherLocale === 'en'
+    ? otherLocalePath === '/' ? '/en' : `/en${otherLocalePath}`
+    : otherLocalePath;
+
 const label = otherLocale === 'en' ? 'English' : 'Svenska';
 ---
 <a

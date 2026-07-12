@@ -3,33 +3,116 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CTASection from '../components/CTASection.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
 import { getUI } from '../data/i18n';
 const locale = 'sv' as const;
 const t = getUI(locale);
 const path = '/branscher';
-const icons = ['wheat','leaf','strategy','sparkles','cap','target','shield','globe','handshake','lightbulb','strategy','leaf','leaf','leaf','globe'];
+
+// Group the 15 industries into 3 meaningful clusters
+const clusters = [
+  {
+    name: locale === 'sv' ? 'Marknad & Företag' : 'Market & Business',
+    color: 'navy' as const,
+    icon: 'strategy' as const,
+    desc: locale === 'sv'
+      ? 'Företag i olika utvecklingsfaser — från start-up till etablerad tillverkare.'
+      : 'Companies at every stage — from start-ups to established manufacturers.',
+    items: locale === 'sv'
+      ? ['Livsmedel & dryck', 'Mejeri', 'Tillverkning', 'SME & småföretag', 'Start-ups', 'Teknikföretag']
+      : ['Food & Beverage', 'Dairy', 'Manufacturing', 'SMEs', 'Start-ups', 'Technology Companies'],
+  },
+  {
+    name: locale === 'sv' ? 'Kunskap & Forskning' : 'Knowledge & Research',
+    color: 'sky' as const,
+    icon: 'cap' as const,
+    desc: locale === 'sv'
+      ? 'Akademi, forskning och utbildning — där idéer föds och växer.'
+      : 'Academia, research and education — where ideas are born and grow.',
+    items: locale === 'sv'
+      ? ['Universitet', 'Forskningsinstitut', 'Hälsa & life science']
+      : ['Universities', 'Research Institutes', 'Healthcare & Life Sciences'],
+  },
+  {
+    name: locale === 'sv' ? 'Samhälle & Investering' : 'Society & Investment',
+    color: 'growth' as const,
+    icon: 'globe' as const,
+    desc: locale === 'sv'
+      ? 'Offentlig sektor, ideella krafter och kapital — de som möjliggör förändring i stor skala.'
+      : 'Public sector, mission-driven organisations and capital — enabling change at scale.',
+    items: locale === 'sv'
+      ? ['Offentlig sektor', 'Ideella organisationer', 'Investerare', 'CleanTech', 'Cirkulär ekonomi', 'Internationella organisationer']
+      : ['Public Sector', 'NGOs', 'Investors', 'CleanTech', 'Circular Economy', 'International Organisations'],
+  },
+];
+
+const accent = {
+  navy:   { dot: 'bg-navy',   text: 'text-navy',   bg: 'bg-navy-50',   ring: 'ring-navy-100' },
+  sky:    { dot: 'bg-sky',    text: 'text-sky-600',bg: 'bg-sky-50',    ring: 'ring-sky-100' },
+  growth: { dot: 'bg-growth', text: 'text-growth-600', bg: 'bg-growth-50', ring: 'ring-growth-100' },
+};
 ---
 <BaseLayout locale={locale} path={path} title={`${t.industries.title} | Strategic Ventures`} description={t.industries.subtitle}>
   <Breadcrumbs items={[{ label: t.nav.home, href: '/' }, { label: t.nav.industries }]} />
   <PageHero eyebrow={t.nav.industries} title={t.industries.title} subtitle={t.industries.subtitle} />
+
   <section class="bg-white">
     <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {t.industries.list.map((ind, i) => {
-          const colors = ['navy','sky','growth'];
-          const color = colors[i % 3];
-          const iconBg = color === 'navy' ? 'bg-navy-50 text-navy group-hover:bg-navy group-hover:text-white' : color === 'sky' ? 'bg-sky-50 text-sky group-hover:bg-sky group-hover:text-white' : 'bg-growth-50 text-growth group-hover:bg-growth group-hover:text-white';
+      <div class="grid gap-6 lg:grid-cols-3">
+        {clusters.map((cluster, ci) => {
+          const a = accent[cluster.color];
           return (
-            <div data-reveal data-reveal-delay={(i % 3) * 70} class="group flex items-center gap-4 rounded-2xl border border-navy-100 bg-white p-5 transition hover:-translate-y-0.5 hover:border-navy-200 hover:shadow-md">
-              <span class={`inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl transition duration-300 ${iconBg}`}>
-                <svg viewBox="0 0 24 24" class="h-5 w-5 transition group-hover:scale-110" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
-              </span>
-              <span class="font-serif text-base font-medium text-navy">{ind}</span>
+            <div
+              data-reveal
+              data-reveal-delay={ci * 100}
+              class={`group relative flex flex-col overflow-hidden rounded-2xl border border-navy-100 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-navy-200 hover:shadow-xl`}
+            >
+              <span class={`absolute inset-x-0 top-0 h-1 ${a.dot}`} aria-hidden="true"></span>
+
+              <div class={`mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl ${a.bg} ${a.text} transition duration-300 group-hover:scale-110`}>
+                <Icon name={cluster.icon} class="h-6 w-6" />
+              </div>
+
+              <p class={`font-mono text-[10px] font-medium uppercase tracking-[0.16em] ${a.text}`}>Kategori 0{ci + 1}</p>
+              <h3 class="mt-1 font-serif text-xl font-semibold leading-snug text-navy">{cluster.name}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink/70">{cluster.desc}</p>
+
+              <hr class="rule mt-5 mb-4" />
+
+              <ul class="space-y-2.5">
+                {cluster.items.map((item, i) => (
+                  <li data-reveal data-reveal-delay={(ci * 3 + i % 3) * 60} class="flex items-center gap-2.5 text-sm">
+                    <span class={`inline-block h-1.5 w-1.5 rounded-full ${a.dot}`}></span>
+                    <span class="font-serif text-sm text-navy">{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           );
         })}
       </div>
+
+      <!-- Closing positioning band -->
+      <div data-reveal class="relative mt-12 overflow-hidden rounded-3xl border border-navy-100 bg-gradient-to-br from-navy-50/60 via-white to-growth-50/40 px-6 py-14 sm:px-16">
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-100/60 blur-3xl"></div>
+          <div class="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-growth-100/60 blur-3xl"></div>
+        </div>
+        <div class="relative mx-auto max-w-3xl text-center">
+          <div class="mb-5 flex items-center justify-center gap-2" aria-hidden="true">
+            <span class="h-2 w-2 rounded-full bg-navy"></span>
+            <span class="h-2 w-2 rounded-full bg-sky"></span>
+            <span class="h-2 w-2 rounded-full bg-growth"></span>
+          </div>
+          <p class="font-serif text-2xl leading-snug text-navy sm:text-3xl sm:leading-snug">
+            {locale === 'sv'
+              ? 'Vi arbetar över branschgränser — från livsmedel och tillverkning till forskning, offentlig sektor och investerare.'
+              : 'We work across sectors — from food and manufacturing to research, public sector and investors.'}
+          </p>
+        </div>
+      </div>
     </div>
   </section>
+
   <CTASection locale={locale} />
 </BaseLayout>

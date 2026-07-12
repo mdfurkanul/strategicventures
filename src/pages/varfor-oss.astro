@@ -8,25 +8,101 @@ import { getUI } from '../data/i18n';
 const locale = 'sv' as const;
 const t = getUI(locale);
 const path = '/varfor-oss';
-const whyIcons = ['globe','check','lightbulb','target','leaf','handshake'];
+
+// icon + accent color per card — rotating navy/sky/growth
+const cards = [
+  { icon: 'globe' as const,     color: 'navy' as const },
+  { icon: 'check' as const,     color: 'growth' as const },
+  { icon: 'lightbulb' as const, color: 'sky' as const },
+  { icon: 'target' as const,    color: 'navy' as const },
+  { icon: 'leaf' as const,      color: 'growth' as const },
+  { icon: 'handshake' as const, color: 'sky' as const },
+];
+
+const accentMap = {
+  navy:   { bar: 'bg-navy',   soft: 'bg-navy-50',   text: 'text-navy',   num: 'text-navy' },
+  sky:    { bar: 'bg-sky',    soft: 'bg-sky-50',    text: 'text-sky-600',num: 'text-sky-600' },
+  growth: { bar: 'bg-growth', soft: 'bg-growth-50', text: 'text-growth-600', num: 'text-growth-600' },
+};
+
+const introHeadline = 'Sex sätt vi skapar mervärde';
+const introBody = 'Vi är mer än en konsult — vi är en strategisk partner från idé till kommersiell framgång. Här är vad som skiljer Strategic Ventures åt.';
+const statsIntro = 'Vårt löfte';
+const statsHeadline = 'Vi förbinder människor, idéer och marknader för att skapa hållbar tillväxt.';
 ---
+
 <BaseLayout locale={locale} path={path} title={`${t.why.title} | Strategic Ventures`} description={t.why.subtitle}>
   <Breadcrumbs items={[{ label: t.nav.home, href: '/' }, { label: t.nav.why }]} />
   <PageHero eyebrow={t.nav.why} title={t.why.title} subtitle={t.why.subtitle} />
+
+  <!-- INTRO BAND -->
   <section class="bg-white">
-    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
-      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {t.why.items.map((item, i) => (
-          <div class="rounded-2xl border border-navy-100 bg-white p-7 transition hover:-translate-y-1 hover:shadow-xl">
-            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-navy text-white">
-              <Icon name={whyIcons[i] as any} class="h-6 w-6" />
-            </div>
-            <h3 class="font-serif text-lg font-semibold text-navy">{item.t}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.d}</p>
-          </div>
-        ))}
+    <div class="mx-auto max-w-7xl px-5 sm:px-8">
+      <div data-reveal class="mx-auto max-w-3xl border-b border-navy-100 pb-12 pt-16 text-center sm:pt-20">
+        <p class="inline-flex items-center gap-2 rounded-full bg-navy-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy">
+          <span class="h-1.5 w-1.5 rounded-full bg-navy"></span>
+          Varför välja oss · 01—06
+        </p>
+        <h2 class="mt-5 font-serif text-3xl font-semibold text-navy sm:text-4xl">{introHeadline}</h2>
+        <p class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink/70 sm:text-lg">{introBody}</p>
       </div>
     </div>
   </section>
+
+  <!-- ADVANTAGES GRID -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 pb-20 sm:px-8">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {t.why.items.map((item, i) => {
+          const card = cards[i];
+          const a = accentMap[card.color];
+          return (
+            <article
+              data-reveal
+              data-reveal-delay={(i % 3) * 90}
+              class="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-navy-100 bg-white p-7 transition duration-300 hover:-translate-y-1 hover:border-navy-200 hover:shadow-xl"
+            >
+              <!-- top accent stripe -->
+              <span class={`absolute inset-x-0 top-0 h-1 ${a.bar} transition-all duration-300 group-hover:h-1.5`} aria-hidden="true"></span>
+
+              <div class="flex items-start justify-between">
+                <!-- icon in soft brand-tinted square -->
+                <span class={`inline-flex h-12 w-12 items-center justify-center rounded-xl ${a.soft} ${a.text} transition duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                  <Icon name={card.icon} class="h-6 w-6" />
+                </span>
+                <!-- numeral -->
+                <span class={`font-serif text-2xl font-light leading-none ${a.num}`}>{String(i + 1).padStart(2, '0')}</span>
+              </div>
+
+              <h3 class="mt-5 font-serif text-lg font-semibold leading-snug text-navy">{item.t}</h3>
+              <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.d}</p>
+            </article>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- POSITIONING / CLOSING BAND -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 pb-12 sm:px-8">
+      <div data-reveal class="relative overflow-hidden rounded-3xl border border-navy-100 bg-gradient-to-br from-navy-50/60 via-white to-sky-50/40 px-6 py-14 sm:px-16">
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-100/60 blur-3xl"></div>
+          <div class="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-growth-100/60 blur-3xl"></div>
+        </div>
+        <div class="relative mx-auto max-w-3xl text-center">
+          <div class="mb-6 flex items-center justify-center gap-2" aria-hidden="true">
+            <span class="h-2 w-2 rounded-full bg-navy"></span>
+            <span class="h-2 w-2 rounded-full bg-sky"></span>
+            <span class="h-2 w-2 rounded-full bg-growth"></span>
+          </div>
+          <p class="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-ink/50">{statsIntro}</p>
+          <p class="mt-4 font-serif text-2xl leading-snug text-navy sm:text-3xl sm:leading-snug">{statsHeadline}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <CTASection locale={locale} />
 </BaseLayout>

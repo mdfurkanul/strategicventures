@@ -1,0 +1,182 @@
+---
+import Icon from './Icon.astro';
+import type { Locale } from '../data/site';
+
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+
+// Center node label
+const centerLabel = locale === 'sv' ? 'Strategic Ventures' : 'Strategic Ventures';
+
+// 6 stakeholder nodes — arranged hexagonally around the center
+// Each gets: position (Tailwind classes), brand color, icon, label
+const nodes = [
+  {
+    pos: 'left-1/2 top-0 -translate-x-1/2',
+    color: 'navy' as const,
+    icon: 'strategy' as const,
+    label: locale === 'sv' ? 'Företag' : 'Business',
+  },
+  {
+    pos: 'right-0 top-1/4 translate-x-1/3',
+    color: 'sky' as const,
+    icon: 'cap' as const,
+    label: locale === 'sv' ? 'Universitet' : 'Universities',
+  },
+  {
+    pos: 'right-0 bottom-1/4 translate-x-1/3',
+    color: 'growth' as const,
+    icon: 'lightbulb' as const,
+    label: locale === 'sv' ? 'Forskning' : 'Research',
+  },
+  {
+    pos: 'left-1/2 bottom-0 -translate-x-1/2',
+    color: 'navy' as const,
+    icon: 'target' as const,
+    label: locale === 'sv' ? 'Investerare' : 'Investors',
+  },
+  {
+    pos: 'left-0 bottom-1/4 -translate-x-1/3',
+    color: 'sky' as const,
+    icon: 'shield' as const,
+    label: locale === 'sv' ? 'Offentlig sektor' : 'Public sector',
+  },
+  {
+    pos: 'left-0 top-1/4 -translate-x-1/3',
+    color: 'growth' as const,
+    icon: 'globe' as const,
+    label: locale === 'sv' ? 'Samhälle' : 'Society',
+  },
+];
+
+const accentMap = {
+  navy:   { ring: 'ring-navy-200',  text: 'text-navy',   dot: 'bg-navy',   stroke: '#2A3A8F' },
+  sky:    { ring: 'ring-sky-200',   text: 'text-sky-600',dot: 'bg-sky',    stroke: '#34B5E5' },
+  growth: { ring: 'ring-growth-200',text: 'text-growth-600', dot: 'bg-growth', stroke: '#6BBE44' },
+};
+---
+<div class="relative mx-auto aspect-[5/4] w-full max-w-3xl sm:aspect-[5/3]">
+  <!-- SVG layer: connecting lines from center to each node -->
+  <svg
+    class="absolute inset-0 h-full w-full"
+    viewBox="0 0 500 400"
+    preserveAspectRatio="none"
+    aria-hidden="true"
+  >
+    <!-- Hexagon arrangement in viewBox coords: center (250, 200), radius ~180 -->
+    <!-- Top (250, 20), TR (406, 110), BR (406, 290), Bottom (250, 380), BL (94, 290), TL (94, 110) -->
+    <g stroke-width="1.5" fill="none" stroke-linecap="round">
+      <line x1="250" y1="200" x2="250" y2="20"  stroke={accentMap.navy.stroke}   class="conn-line conn-line-1" opacity="0.45"/>
+      <line x1="250" y1="200" x2="406" y2="110" stroke={accentMap.sky.stroke}    class="conn-line conn-line-2" opacity="0.45"/>
+      <line x1="250" y1="200" x2="406" y2="290" stroke={accentMap.growth.stroke} class="conn-line conn-line-3" opacity="0.45"/>
+      <line x1="250" y1="200" x2="250" y2="380" stroke={accentMap.navy.stroke}   class="conn-line conn-line-4" opacity="0.45"/>
+      <line x1="250" y1="200" x2="94"  y2="290" stroke={accentMap.sky.stroke}    class="conn-line conn-line-5" opacity="0.45"/>
+      <line x1="250" y1="200" x2="94"  y2="110" stroke={accentMap.growth.stroke} class="conn-line conn-line-6" opacity="0.45"/>
+    </g>
+
+    <!-- Subtle dots traveling along each line (decorative motion) -->
+    <g class="conn-dots">
+      <circle r="3" fill={accentMap.navy.stroke}   class="conn-dot conn-dot-1"/>
+      <circle r="3" fill={accentMap.sky.stroke}    class="conn-dot conn-dot-2"/>
+      <circle r="3" fill={accentMap.growth.stroke} class="conn-dot conn-dot-3"/>
+      <circle r="3" fill={accentMap.navy.stroke}   class="conn-dot conn-dot-4"/>
+      <circle r="3" fill={accentMap.sky.stroke}    class="conn-dot conn-dot-5"/>
+      <circle r="3" fill={accentMap.growth.stroke} class="conn-dot conn-dot-6"/>
+    </g>
+  </svg>
+
+  <!-- Center: SV brand mark -->
+  <div class="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
+    <div class="group flex h-24 w-24 items-center justify-center rounded-full bg-white shadow-lg ring-1 ring-navy-100 sm:h-28 sm:w-28">
+      <svg viewBox="0 0 64 64" class="h-14 w-14 sm:h-16 sm:w-16" aria-hidden="true">
+        <g transform="translate(32 32)">
+          <circle cx="0" cy="-14" r="7" fill="#6BBE44"/>
+          <circle cx="12" cy="7" r="7" fill="#34B5E5"/>
+          <circle cx="-12" cy="7" r="7" fill="#2A3A8F"/>
+        </g>
+      </svg>
+    </div>
+    <p class="mt-3 text-center font-serif text-sm font-semibold text-navy">{centerLabel}</p>
+  </div>
+
+  <!-- 6 stakeholder nodes -->
+  {nodes.map((node, i) => {
+    const a = accentMap[node.color];
+    return (
+      <div class={`absolute z-10 ${node.pos}`}>
+        <div class="group flex flex-col items-center">
+          <div class={`flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-md ring-1 ${a.ring} transition duration-300 hover:scale-110 hover:shadow-lg sm:h-20 sm:w-20`}>
+            <Icon name={node.icon} class={`h-7 w-7 ${a.text} sm:h-8 sm:w-8`} />
+          </div>
+          <p class={`mt-2 max-w-[100px] text-center text-xs font-semibold leading-tight ${a.text} sm:text-sm`}>{node.label}</p>
+        </div>
+      </div>
+    );
+  })}
+</div>
+
+<style is:global>
+  /* Lines draw in from center outward when section enters view */
+  .conn-line {
+    stroke-dasharray: 250;
+    stroke-dashoffset: 250;
+    transition: stroke-dashoffset 1.2s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .conn-diagram-visible .conn-line {
+    stroke-dashoffset: 0;
+  }
+  .conn-diagram-visible .conn-line-1 { transition-delay: 0.05s; }
+  .conn-diagram-visible .conn-line-2 { transition-delay: 0.15s; }
+  .conn-diagram-visible .conn-line-3 { transition-delay: 0.25s; }
+  .conn-diagram-visible .conn-line-4 { transition-delay: 0.35s; }
+  .conn-diagram-visible .conn-line-5 { transition-delay: 0.45s; }
+  .conn-diagram-visible .conn-line-6 { transition-delay: 0.55s; }
+
+  /* Dots traveling along each line — animate motion along the line via CSS offset-path */
+  .conn-dot {
+    opacity: 0;
+    offset-path: path('M 250 200 L 250 20');
+    animation: connDotTravel 4s ease-in-out infinite;
+    animation-delay: 1.5s;
+  }
+  .conn-dot-1 { offset-path: path('M 250 200 L 250 20');   animation-delay: 1.4s; }
+  .conn-dot-2 { offset-path: path('M 250 200 L 406 110');  animation-delay: 1.8s; }
+  .conn-dot-3 { offset-path: path('M 250 200 L 406 290');  animation-delay: 2.2s; }
+  .conn-dot-4 { offset-path: path('M 250 200 L 250 380');  animation-delay: 2.6s; }
+  .conn-dot-5 { offset-path: path('M 250 200 L 94 290');   animation-delay: 3.0s; }
+  .conn-dot-6 { offset-path: path('M 250 200 L 94 110');   animation-delay: 3.4s; }
+
+  @keyframes connDotTravel {
+    0%   { opacity: 0; offset-distance: 0%; }
+    15%  { opacity: 1; }
+    85%  { opacity: 1; }
+    100% { opacity: 0; offset-distance: 100%; }
+  }
+
+  .conn-diagram-visible .conn-dot {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .conn-line { stroke-dashoffset: 0; transition: none; }
+    .conn-dot { display: none; }
+  }
+</style>
+
+<script>
+  // When the diagram scrolls into view, add a class to trigger the draw-in animation
+  const diagram = document.querySelector('[data-connection-diagram]');
+  if (diagram && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('conn-diagram-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    io.observe(diagram);
+  } else if (diagram) {
+    diagram.classList.add('conn-diagram-visible');
+  }
+</script>

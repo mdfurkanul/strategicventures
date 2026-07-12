@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CTASection from '../components/CTASection.astro';
+import ApproachCycle from '../components/ApproachCycle.astro';
 import Icon from '../components/Icon.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import { getUI } from '../data/i18n';
@@ -40,22 +41,21 @@ const approachIcons = ['target', 'lightbulb', 'handshake', 'check', 'leaf'];
     </div>
   </section>
 
-  <!-- Approach -->
+  <!-- Approach — pentagon cycle diagram -->
   <section class="bg-gradient-to-b from-navy-50/40 to-white border-y border-navy-100">
     <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
       <div class="mx-auto max-w-2xl text-center">
-        <h2 data-reveal class="font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.about.approachTitle}</h2>
+        <p data-reveal class="inline-flex items-center gap-2 rounded-full bg-white px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-navy ring-1 ring-navy-100">
+          <span class="h-1.5 w-1.5 rounded-full bg-navy"></span>
+          Vårt arbetssätt · En cykel
+        </p>
+        <h2 data-reveal class="mt-5 font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.about.approachTitle}</h2>
+        <p data-reveal class="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-ink/70 sm:text-lg">
+          Fem element som tillsammans formar ett kontinuerligt arbete — från strategi till implementering, med hållbarhet integrerat i varje steg.
+        </p>
       </div>
-      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {t.about.approach.map((item, i) => (
-          <div data-reveal data-reveal-delay={i * 100} class="group rounded-2xl bg-white p-7 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
-            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky transition group-hover:scale-110 group-hover:bg-sky group-hover:text-white">
-              <Icon name={approachIcons[i] as any} class="h-6 w-6" />
-            </div>
-            <h3 class="font-serif text-lg font-semibold text-navy">{item.t}</h3>
-            <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.d}</p>
-          </div>
-        ))}
+      <div data-reveal class="mt-12">
+        <ApproachCycle locale={locale} />
       </div>
     </div>
   </section>
