@@ -1,0 +1,120 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import { getUI } from '../data/i18n';
+import { services } from '../data/services';
+import type { Locale } from '../data/site';
+
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = getUI(locale);
+const prefix = locale === 'en' ? '/en' : '';
+const year = new Date().getFullYear();
+
+// brand-colour dots used as section heading markers
+const dotColor: Record<string, string> = {
+  services: 'bg-navy',
+  company: 'bg-sky',
+  contact: 'bg-growth',
+};
+---
+<footer class="border-t border-navy-100 bg-white">
+  <!-- top decorative brand stripe -->
+  <div class="flex h-1" aria-hidden="true">
+    <div class="flex-1 bg-navy"></div>
+    <div class="flex-1 bg-sky"></div>
+    <div class="flex-1 bg-growth"></div>
+  </div>
+
+  <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+    <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-12">
+      <!-- brand column -->
+      <div class="lg:col-span-4">
+        <Logo />
+        <p class="mt-5 max-w-xs text-sm leading-relaxed text-ink/70">{t.footer.tagline}</p>
+        <div class="mt-6 flex gap-3">
+          <a href={site.contact.linkedin} class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy-100 text-navy transition hover:border-navy hover:bg-navy-50" aria-label="LinkedIn">
+            <Icon name="linkedin" class="h-4 w-4" />
+          </a>
+          <a href={`mailto:${site.contact.email}`} class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy-100 text-navy transition hover:border-navy hover:bg-navy-50" aria-label="Email">
+            <Icon name="mail" class="h-4 w-4" />
+          </a>
+          <a href={`tel:${site.contact.phone.replace(/[^+\d]/g, '')}`} class="inline-flex h-10 w-10 items-center justify-center rounded-full border border-navy-100 text-navy transition hover:border-navy hover:bg-navy-50" aria-label="Phone">
+            <Icon name="phone" class="h-4 w-4" />
+          </a>
+        </div>
+      </div>
+
+      <!-- services -->
+      <div class="lg:col-span-3">
+        <h3 class="flex items-center gap-2 font-serif text-sm font-semibold uppercase tracking-wider text-navy">
+          <span class={`inline-block h-2 w-2 rounded-full ${dotColor.services}`}></span>
+          {t.footer.services}
+        </h3>
+        <ul class="mt-5 space-y-2.5 text-sm">
+          {services.map((s) => (
+            <li>
+              <a href={`${prefix}${locale === 'en' ? '/services' : '/tjanster'}/${s.slug}`} class="text-ink/70 transition hover:text-navy">
+                {s.name[locale]}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- company -->
+      <div class="lg:col-span-2">
+        <h3 class="flex items-center gap-2 font-serif text-sm font-semibold uppercase tracking-wider text-navy">
+          <span class={`inline-block h-2 w-2 rounded-full ${dotColor.company}`}></span>
+          {t.footer.company}
+        </h3>
+        <ul class="mt-5 space-y-2.5 text-sm">
+          <li><a href={`${prefix}${locale === 'en' ? '/about' : '/om-oss'}`} class="text-ink/70 transition hover:text-navy">{t.nav.about}</a></li>
+          <li><a href={`${prefix}${locale === 'en' ? '/industries' : '/branscher'}`} class="text-ink/70 transition hover:text-navy">{t.nav.industries}</a></li>
+          <li><a href={`${prefix}${locale === 'en' ? '/why-us' : '/varfor-oss'}`} class="text-ink/70 transition hover:text-navy">{t.nav.why}</a></li>
+          <li><a href={`${prefix}${locale === 'en' ? '/sustainability' : '/hallbarhet'}`} class="text-ink/70 transition hover:text-navy">{t.nav.sustainability}</a></li>
+        </ul>
+      </div>
+
+      <!-- contact -->
+      <div class="lg:col-span-3">
+        <h3 class="flex items-center gap-2 font-serif text-sm font-semibold uppercase tracking-wider text-navy">
+          <span class={`inline-block h-2 w-2 rounded-full ${dotColor.contact}`}></span>
+          {t.footer.contact}
+        </h3>
+        <ul class="mt-5 space-y-3 text-sm">
+          <li>
+            <a href={`mailto:${site.contact.email}`} class="group flex items-start gap-2.5 text-ink/70 transition hover:text-navy">
+              <Icon name="mail" class="mt-0.5 h-4 w-4 flex-shrink-0 text-navy-400 transition group-hover:text-navy" />
+              <span class="break-all">{site.contact.email}</span>
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${site.contact.phone.replace(/[^+\d]/g, '')}`} class="group flex items-start gap-2.5 text-ink/70 transition hover:text-navy">
+              <Icon name="phone" class="mt-0.5 h-4 w-4 flex-shrink-0 text-sky-600 transition group-hover:text-navy" />
+              <span>{site.contact.phone}</span>
+            </a>
+          </li>
+          <li class="flex items-start gap-2.5 text-ink/70">
+            <Icon name="map" class="mt-0.5 h-4 w-4 flex-shrink-0 text-growth-600" />
+            <span>{site.contact.address}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- bottom bar -->
+    <div class="mt-14 border-t border-navy-100 pt-6 flex flex-col items-center justify-between gap-3 sm:flex-row">
+      <p class="text-xs text-ink/60">© {year} {site.name}. {t.footer.rights}</p>
+      <div class="flex items-center gap-2 text-xs">
+        <span class="h-1.5 w-1.5 rounded-full bg-navy"></span>
+        <span class="h-1.5 w-1.5 rounded-full bg-sky"></span>
+        <span class="h-1.5 w-1.5 rounded-full bg-growth"></span>
+        <a href={`${prefix}${locale === 'en' ? '/privacy' : '/integritet'}`} class="ml-2 text-ink/60 transition hover:text-navy">
+          {t.footer.privacy}
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>

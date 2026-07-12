@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b2461"/>
+      <stop offset="1" stop-color="#2A3A8F"/>
+    </linearGradient>
+    <radialGradient id="glow1" cx="0.85" cy="0.15" r="0.6">
+      <stop offset="0" stop-color="#34B5E5" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#34B5E5" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.15" cy="0.85" r="0.6">
+      <stop offset="0" stop-color="#6BBE44" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#6BBE44" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#glow1)"/>
+  <rect width="1200" height="630" fill="url(#glow2)"/>
+  <!-- mark -->
+  <g transform="translate(160 200)">
+    <circle cx="40" cy="20" r="36" fill="#6BBE44"/>
+    <circle cx="60" cy="68" r="36" fill="#34B5E5"/>
+    <circle cx="20" cy="68" r="36" fill="#ffffff"/>
+  </g>
+  <text x="280" y="260" font-family="Fraunces, Georgia, serif" font-size="72" font-weight="700" fill="#ffffff">Strategic Ventures</text>
+  <text x="282" y="318" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="500" fill="#a9b1e8" letter-spacing="2">CONNECTING OPPORTUNITIES</text>
+  <text x="282" y="400" font-family="Inter, Arial, sans-serif" font-size="26" fill="#d4d8f4">International management, innovation &amp;</text>
+  <text x="282" y="438" font-family="Inter, Arial, sans-serif" font-size="26" fill="#d4d8f4">sustainability consultancy.</text>
+</svg>

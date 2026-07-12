@@ -1,0 +1,51 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { getUI } from '../data/i18n';
+// Single 404 for the whole site. Auto-detects locale from Referer path
+// (anything under /en/ is treated as English); defaults to Swedish.
+const referer = Astro.request.headers.get('referer') || '';
+const isEnglish = referer.includes('/en/') || referer.endsWith('/en');
+const locale = isEnglish ? 'en' as const : 'sv' as const;
+const t = getUI(locale);
+const homeHref = locale === 'en' ? '/en' : '/';
+const otherLocaleHref = locale === 'en' ? '/' : '/en';
+const otherLabel = locale === 'en' ? 'Svenska' : 'English';
+const title = locale === 'en' ? 'Page not found' : 'Sidan hittades inte';
+const body = locale === 'en'
+  ? 'The page you are looking for may have moved or no longer exists.'
+  : 'Sidan du letar efter kan ha flyttats eller inte längre existerar.';
+const cta = locale === 'en' ? 'Back to home' : 'Tillbaka till startsidan';
+---
+<BaseLayout locale={locale} path="/404" title="404 | Strategic Ventures" description={title}>
+  <section class="relative overflow-hidden bg-white">
+    <!-- soft brand-coloured background -->
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div class="absolute -right-32 top-10 h-96 w-96 rounded-full bg-sky-100/50 blur-3xl"></div>
+      <div class="absolute -left-32 bottom-10 h-80 w-80 rounded-full bg-growth-100/40 blur-3xl"></div>
+    </div>
+
+    <div class="relative mx-auto flex max-w-3xl flex-col items-center px-5 py-32 text-center sm:px-8">
+      <!-- three-dot brand mark -->
+      <div class="mb-8 flex items-center gap-2" aria-hidden="true">
+        <span class="h-2.5 w-2.5 rounded-full bg-growth"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-sky"></span>
+        <span class="h-2.5 w-2.5 rounded-full bg-navy"></span>
+      </div>
+
+      <p class="font-serif text-7xl font-bold text-navy sm:text-9xl">404</p>
+      <h1 class="mt-4 font-serif text-3xl font-semibold text-navy sm:text-4xl">{title}</h1>
+      <p class="mt-4 max-w-md text-ink/70">{body}</p>
+
+      <div class="mt-9 flex flex-col items-center gap-3 sm:flex-row">
+        <a href={homeHref} class="group inline-flex items-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-navy-700 hover:shadow-lg">
+          <Icon name="arrow-right" class="h-4 w-4 rotate-180 transition group-hover:translate-x-[-4px]" />
+          {cta}
+        </a>
+        <a href={otherLocaleHref} class="inline-flex items-center gap-2 rounded-full border border-navy-200 px-6 py-3 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy-50">
+          {otherLabel}
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

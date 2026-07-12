@@ -1,0 +1,87 @@
+---
+import Icon from './Icon.astro';
+import { getUI } from '../data/i18n';
+import type { Locale } from '../data/site';
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = getUI(locale);
+const prefix = locale === 'en' ? '/en' : '';
+---
+<section class="relative overflow-hidden bg-white">
+  <!-- soft brand-coloured background -->
+  <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+    <div class="absolute -right-32 top-0 h-[480px] w-[480px] rounded-full bg-sky-100/60 blur-3xl"></div>
+    <div class="absolute -left-32 top-40 h-[400px] w-[400px] rounded-full bg-growth-100/40 blur-3xl"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-white/0 via-white/0 to-navy-50/40"></div>
+  </div>
+
+  <div class="relative mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-12 lg:gap-8 lg:py-28">
+    <div class="lg:col-span-7 lg:pr-8">
+      <p class="reveal inline-flex items-center gap-2 rounded-full border border-navy-200 bg-white/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-navy">
+        <span class="relative flex h-2 w-2">
+          <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-growth opacity-60"></span>
+          <span class="relative inline-flex h-2 w-2 rounded-full bg-growth"></span>
+        </span>
+        {t.hero.eyebrow}
+      </p>
+
+      <h1 class="reveal mt-6 font-serif text-4xl font-bold leading-[1.1] tracking-tight text-navy sm:text-5xl md:text-6xl">
+        {t.hero.title}
+      </h1>
+
+      <p class="reveal mt-6 max-w-xl text-base leading-relaxed text-ink/75 sm:text-lg">
+        {t.hero.subtitle}
+      </p>
+
+      <div class="reveal mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href={`${prefix}${locale === 'en' ? '/contact' : '/kontakt'}`}
+          class="group inline-flex items-center justify-center gap-2 rounded-full bg-navy px-7 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-navy-700 hover:shadow-lg"
+        >
+          {t.hero.primaryCta}
+          <Icon name="arrow-right" class="h-4 w-4 transition group-hover:translate-x-1" />
+        </a>
+        <a
+          href={`${prefix}${locale === 'en' ? '/services' : '/tjanster'}`}
+          class="inline-flex items-center justify-center gap-2 rounded-full border border-navy-200 px-7 py-3.5 text-sm font-semibold text-navy transition hover:border-navy hover:bg-navy-50"
+        >
+          {t.hero.secondaryCta}
+        </a>
+      </div>
+    </div>
+
+    <!-- three-pillar visual -->
+    <div class="lg:col-span-5">
+      <div class="reveal relative mx-auto aspect-square max-w-md">
+        <div class="absolute inset-0 rounded-full bg-gradient-to-br from-navy-50 to-white"></div>
+        <svg viewBox="0 0 400 400" class="relative h-full w-full" aria-hidden="true">
+          <!-- connecting rings -->
+          <circle cx="200" cy="200" r="160" fill="none" stroke="#2A3A8F" stroke-width="1" opacity="0.15" />
+          <circle cx="200" cy="200" r="120" fill="none" stroke="#34B5E5" stroke-width="1" opacity="0.2" />
+          <!-- three pillars (overlapping circles like logo) -->
+          <g>
+            <circle cx="200" cy="120" r="68" fill="#6BBE44" opacity="0.92" />
+            <circle cx="270" cy="240" r="68" fill="#34B5E5" opacity="0.92" />
+            <circle cx="130" cy="240" r="68" fill="#2A3A8F" opacity="0.92" />
+          </g>
+          <!-- center logo mark -->
+          <g transform="translate(200 200)">
+            <circle r="22" fill="white" />
+            <circle cx="0" cy="-9" r="4.5" fill="#6BBE44" />
+            <circle cx="8" cy="5" r="4.5" fill="#34B5E5" />
+            <circle cx="-8" cy="5" r="4.5" fill="#2A3A8F" />
+          </g>
+        </svg>
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-growth shadow-sm float-slow">
+          {t.pillars.innovation.name}
+        </div>
+        <div class="absolute bottom-2 right-0 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-sky shadow-sm float-slower">
+          {t.pillars.connection.name}
+        </div>
+        <div class="absolute bottom-2 left-0 rounded-full bg-white px-4 py-1.5 text-xs font-semibold text-navy shadow-sm float-slow">
+          {t.pillars.trust.name}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

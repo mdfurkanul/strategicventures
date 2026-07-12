@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import { getUI } from '../data/i18n';
+import type { Locale } from '../data/site';
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = getUI(locale);
+const prefix = locale === 'en' ? '/en' : '';
+const orDirect = locale === 'sv' ? 'eller skriv till oss direkt' : 'or write to us directly';
+---
+<section class="bg-white">
+  <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24">
+    <div class="relative overflow-hidden rounded-3xl border border-navy-100 bg-navy-50/40 px-6 py-16 sm:px-16 sm:py-20">
+      <!-- decorative triple-stripe top in brand colours -->
+      <div class="absolute inset-x-0 top-0 flex h-1.5" aria-hidden="true">
+        <div class="flex-1 bg-navy"></div>
+        <div class="flex-1 bg-sky"></div>
+        <div class="flex-1 bg-growth"></div>
+      </div>
+      <!-- soft brand-colour glows -->
+      <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+        <div class="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-sky-100/70 blur-3xl"></div>
+        <div class="absolute -bottom-24 -left-24 h-72 w-72 rounded-full bg-growth-100/60 blur-3xl"></div>
+      </div>
+
+      <div class="relative mx-auto max-w-3xl text-center">
+        <!-- three-dot brand mark -->
+        <div class="mb-7 flex items-center justify-center gap-2" aria-hidden="true">
+          <span class="h-2.5 w-2.5 rounded-full bg-growth"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-sky"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-navy"></span>
+        </div>
+
+        <h2 class="font-serif text-3xl font-semibold leading-tight tracking-tight text-navy sm:text-4xl md:text-5xl">
+          {t.ctaBand.title}
+        </h2>
+        <p class="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-ink/70 sm:text-lg">
+          {t.ctaBand.subtitle}
+        </p>
+
+        <div class="mt-9 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          <a
+            href={`${prefix}${locale === 'en' ? '/contact' : '/kontakt'}`}
+            class="group inline-flex items-center justify-center gap-2 rounded-full bg-navy px-7 py-3.5 text-sm font-semibold text-white shadow-md transition hover:bg-navy-700 hover:shadow-lg"
+          >
+            {t.ctaBand.button}
+            <Icon name="arrow-right" class="h-4 w-4 transition group-hover:translate-x-1" />
+          </a>
+          <a
+            href="mailto:info@strategicventures.example"
+            class="inline-flex items-center gap-2 text-sm font-semibold text-navy transition hover:gap-3"
+          >
+            <Icon name="mail" class="h-4 w-4" />
+            <span class="border-b border-navy-300 pb-0.5 transition group-hover:border-navy">
+              {orDirect}
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,7 @@
+name = "strategic-ventures-contact"
+main = "contact.js"
+compatibility_date = "2025-01-01"
+
+# Set secrets after first deploy:
+#   wrangler secret put CONTACT_TO_EMAIL
+#   wrangler secret put CONTACT_FROM_EMAIL

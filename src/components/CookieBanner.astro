@@ -1,0 +1,31 @@
+---
+import { getUI } from '../data/i18n';
+import type { Locale } from '../data/site';
+export interface Props { locale: Locale; }
+const { locale } = Astro.props;
+const t = getUI(locale);
+const prefix = locale === 'en' ? '/en' : '';
+---
+<div id="cookie-banner" class="hidden fixed bottom-4 left-4 right-4 z-[60] mx-auto max-w-2xl rounded-2xl border border-navy-100 bg-white p-4 shadow-2xl sm:p-5">
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+    <p class="flex-1 text-sm text-ink/80">{t.cookie.msg}</p>
+    <div class="flex items-center gap-2">
+      <a href={`${prefix}${locale === 'en' ? '/privacy' : '/integritet'}`} class="text-xs font-medium text-navy-500 hover:text-navy">
+        {t.cookie.privacy}
+      </a>
+      <button id="cookie-accept" class="rounded-full bg-navy px-4 py-2 text-xs font-semibold text-white hover:bg-navy-700">
+        {t.cookie.accept}
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+  const banner = document.getElementById('cookie-banner');
+  if (banner && !localStorage.getItem('sv-cookie-consent')) {
+    banner.classList.remove('hidden');
+  }
+  document.getElementById('cookie-accept')?.addEventListener('click', () => {
+    localStorage.setItem('sv-cookie-consent', 'accepted');
+    banner?.classList.add('hidden');
+  });
+</script>

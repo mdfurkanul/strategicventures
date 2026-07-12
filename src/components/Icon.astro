@@ -1,0 +1,162 @@
+---
+// Lightweight inline SVG icon set. Usage: <Icon name="strategy" class="h-6 w-6" />
+export interface Props {
+  name:
+    | 'strategy' | 'leaf' | 'lightbulb' | 'wheat' | 'handshake' | 'globe' | 'cap'
+    | 'check' | 'arrow-right' | 'menu' | 'close' | 'mail' | 'phone' | 'linkedin'
+    | 'map' | 'sparkles' | 'shield' | 'target';
+  class?: string;
+}
+const { name, class: cls = 'h-6 w-6' } = Astro.props;
+const stroke = 'stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" fill="none"';
+---
+{
+  name === 'strategy' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M3 3v18h18" />
+      <path d="M7 15l4-4 3 3 5-6" />
+    </svg>
+  )
+}
+{
+  name === 'leaf' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M11 20C6 20 4 16 4 11c0-3 1-6 1-6s3 1 6 1 8 1 8 7-3 7-8 7Z" />
+      <path d="M8 20c4-6 7-9 13-12" />
+    </svg>
+  )
+}
+{
+  name === 'lightbulb' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M12 2a7 7 0 0 0-4 12c1 1 1 2 1 3h6c0-1 0-2 1-3a7 7 0 0 0-4-12Z" />
+    </svg>
+  )
+}
+{
+  name === 'wheat' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M12 22V8" />
+      <path d="M12 8c0-2 2-4 4-4 0 2-2 4-4 4Z" />
+      <path d="M12 8c0-2-2-4-4-4 0 2 2 4 4 4Z" />
+      <path d="M12 13c0-2 2-4 4-4 0 2-2 4-4 4Z" />
+      <path d="M12 13c0-2-2-4-4-4 0 2 2 4 4 4Z" />
+      <path d="M12 18c0-2 2-4 4-4 0 2-2 4-4 4Z" />
+      <path d="M12 18c0-2-2-4-4-4 0 2 2 4 4 4Z" />
+    </svg>
+  )
+}
+{
+  name === 'handshake' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="m11 17 2 2a1 1 0 0 0 1.5-1.5" />
+      <path d="M2 9l4-4 5 5" />
+      <path d="m22 9-4-4-7 7" />
+      <path d="M14 19.5 12 22l-3-3" />
+      <path d="m8 13 3 3" />
+    </svg>
+  )
+}
+{
+  name === 'globe' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18" />
+      <path d="M12 3a14 14 0 0 0 0 18" />
+      <path d="M12 3a14 14 0 0 1 0 18" />
+    </svg>
+  )
+}
+{
+  name === 'cap' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M22 9 12 4 2 9l10 5 10-5Z" />
+      <path d="M6 11v5c0 1 2.5 3 6 3s6-2 6-3v-5" />
+    </svg>
+  )
+}
+{
+  name === 'check' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="m5 12 5 5L20 7" />
+    </svg>
+  )
+}
+{
+  name === 'arrow-right' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M5 12h14" />
+      <path d="m13 6 6 6-6 6" />
+    </svg>
+  )
+}
+{
+  name === 'menu' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M4 7h16M4 12h16M4 17h16" />
+    </svg>
+  )
+}
+{
+  name === 'close' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  )
+}
+{
+  name === 'mail' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <rect x="3" y="5" width="18" height="14" rx="2" />
+      <path d="m3 7 9 6 9-6" />
+    </svg>
+  )
+}
+{
+  name === 'phone' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M5 4h4l2 5-3 2a14 14 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A17 17 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+    </svg>
+  )
+}
+{
+  name === 'linkedin' && (
+    <svg class={cls} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5ZM3 9h4v12H3zM9 9h3.8v1.7h.1c.5-1 1.8-2 3.7-2 4 0 4.7 2.6 4.7 6V21h-4v-5.3c0-1.3 0-3-1.8-3s-2 1.4-2 2.9V21H9z" />
+    </svg>
+  )
+}
+{
+  name === 'map' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M12 22s8-7.5 8-13a8 8 0 1 0-16 0c0 5.5 8 13 8 13Z" />
+      <circle cx="12" cy="9" r="3" />
+    </svg>
+  )
+}
+{
+  name === 'sparkles' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M12 3v6M9 6h6M5 12v4M3 14h4M16 14v6M13 17h6" />
+    </svg>
+  )
+}
+{
+  name === 'shield' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <path d="M12 2 4 5v6c0 5 4 9 8 11 4-2 8-6 8-11V5Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  )
+}
+{
+  name === 'target' && (
+    <svg class={cls} viewBox="0 0 24 24" {...{ stroke }}>
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="5" />
+      <circle cx="12" cy="12" r="1" />
+    </svg>
+  )
+}

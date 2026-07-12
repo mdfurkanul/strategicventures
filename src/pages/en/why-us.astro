@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import CTASection from '../../components/CTASection.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import { getUI } from '../../data/i18n';
+const locale = 'en' as const;
+const t = getUI(locale);
+const path = '/why-us';
+const whyIcons = ['globe','check','lightbulb','target','leaf','handshake'];
+---
+<BaseLayout locale={locale} path={path} title={`${t.why.title} | Strategic Ventures`} description={t.why.subtitle}>
+  <Breadcrumbs items={[{ label: t.nav.home, href: '/en/' }, { label: t.nav.why }]} />
+  <PageHero eyebrow={t.nav.why} title={t.why.title} subtitle={t.why.subtitle} />
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {t.why.items.map((item, i) => (
+          <div data-reveal data-reveal-delay={(i % 3) * 100} class="group rounded-2xl border border-navy-100 bg-white p-7 transition hover:-translate-y-1 hover:border-navy-200 hover:shadow-xl">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-navy text-white transition duration-300 group-hover:scale-110 group-hover:rotate-3">
+              <Icon name={whyIcons[i] as any} class="h-6 w-6" />
+            </div>
+            <h3 class="font-serif text-lg font-semibold text-navy">{item.t}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTASection locale={locale} />
+</BaseLayout>

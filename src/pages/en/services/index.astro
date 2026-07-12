@@ -1,0 +1,27 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import PageHero from '../../../components/PageHero.astro';
+import ServiceCard from '../../../components/ServiceCard.astro';
+import CTASection from '../../../components/CTASection.astro';
+import { getUI } from '../../../data/i18n';
+import { services } from '../../../data/services';
+
+const locale = 'en' as const;
+const t = getUI(locale);
+const path = '/services';
+---
+<BaseLayout locale={locale} path={path} title={`${t.services.heroTitle} | Strategic Ventures`} description={t.services.heroSubtitle}>
+  <PageHero eyebrow={t.nav.services} title={t.services.heroTitle} subtitle={t.services.heroSubtitle} />
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((service, i) => (
+          <div data-reveal data-reveal-delay={(i % 3) * 100}>
+            <ServiceCard service={service} locale={locale} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+  <CTASection locale={locale} />
+</BaseLayout>

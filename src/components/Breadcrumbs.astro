@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+export interface Props { items: { label: string; href?: string }[]; }
+const { items } = Astro.props;
+---
+<nav aria-label="Breadcrumb" class="mx-auto max-w-7xl px-5 pt-6 sm:px-8">
+  <ol class="flex flex-wrap items-center gap-1.5 text-xs text-ink/60">
+    {items.map((item, i) => (
+      <li class="flex items-center gap-1.5">
+        {i > 0 && <Icon name="arrow-right" class="h-3 w-3 opacity-50" />}
+        {item.href ? (
+          <a href={item.href} class="hover:text-navy">{item.label}</a>
+        ) : (
+          <span class="text-navy-500">{item.label}</span>
+        )}
+      </li>
+    ))}
+  </ol>
+</nav>
+<script type="application/ld+json" is:inline set:html={JSON.stringify({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.label,
+    ...(item.href ? { item: item.href } : {}),
+  })),
+})} />

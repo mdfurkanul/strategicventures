@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Hero from '../../components/Hero.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import CTASection from '../../components/CTASection.astro';
+import Icon from '../../components/Icon.astro';
+import { getUI } from '../../data/i18n';
+import { services } from '../../data/services';
+
+const locale = 'en' as const;
+const t = getUI(locale);
+const path = '/';
+---
+<BaseLayout
+  locale={locale}
+  path={path}
+  title={`${t.hero.title} | Strategic Ventures`}
+  description={t.hero.subtitle}
+>
+  <Hero locale={locale} />
+
+  <section class="border-y border-navy-100 bg-navy-50/40">
+    <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-20">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 data-reveal class="font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.pillars.title}</h2>
+        <p data-reveal class="mt-4 text-ink/70">{t.pillars.subtitle}</p>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-3">
+        <div data-reveal class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="absolute inset-x-0 top-0 h-1 bg-navy transition-all duration-300 group-hover:h-1.5" aria-hidden="true"></div>
+          <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-navy text-white transition duration-300 group-hover:scale-110 group-hover:rotate-3">
+            <Icon name="shield" class="h-7 w-7" />
+          </div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-navy-400">{t.pillars.trust.color}</p>
+          <h3 class="mt-1 font-serif text-xl font-semibold text-navy">{t.pillars.trust.name}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink/70">{t.pillars.trust.desc}</p>
+        </div>
+        <div data-reveal data-reveal-delay="120" class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="absolute inset-x-0 top-0 h-1 bg-growth transition-all duration-300 group-hover:h-1.5" aria-hidden="true"></div>
+          <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-growth text-white transition duration-300 group-hover:scale-110 group-hover:rotate-3">
+            <Icon name="sparkles" class="h-7 w-7" />
+          </div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-growth-600">{t.pillars.innovation.color}</p>
+          <h3 class="mt-1 font-serif text-xl font-semibold text-navy">{t.pillars.innovation.name}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink/70">{t.pillars.innovation.desc}</p>
+        </div>
+        <div data-reveal data-reveal-delay="240" class="group relative overflow-hidden rounded-2xl bg-white p-8 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
+          <div class="absolute inset-x-0 top-0 h-1 bg-sky transition-all duration-300 group-hover:h-1.5" aria-hidden="true"></div>
+          <div class="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-sky text-white transition duration-300 group-hover:scale-110 group-hover:rotate-3">
+            <Icon name="globe" class="h-7 w-7" />
+          </div>
+          <p class="text-xs font-semibold uppercase tracking-wider text-sky-600">{t.pillars.connection.color}</p>
+          <h3 class="mt-1 font-serif text-xl font-semibold text-navy">{t.pillars.connection.name}</h3>
+          <p class="mt-3 text-sm leading-relaxed text-ink/70">{t.pillars.connection.desc}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+        <div data-reveal class="max-w-2xl">
+          <p class="text-xs font-semibold uppercase tracking-wider text-sky-600">{t.hero.eyebrow}</p>
+          <h2 class="mt-2 font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.servicesPreview.title}</h2>
+          <p class="mt-4 text-ink/70">{t.servicesPreview.subtitle}</p>
+        </div>
+        <a data-reveal href="/en/services" class="group inline-flex items-center gap-1.5 text-sm font-semibold text-navy transition hover:gap-2.5">
+          {t.cta.allServices}
+          <Icon name="arrow-right" class="h-4 w-4 transition group-hover:translate-x-1" />
+        </a>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((service, i) => (
+          <div data-reveal data-reveal-delay={(i % 3) * 100}>
+            <ServiceCard service={service} locale={locale} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-b from-white to-navy-50/50">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 data-reveal class="font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.why.title}</h2>
+        <p data-reveal class="mt-4 text-ink/70">{t.why.subtitle}</p>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {t.why.items.map((item, i) => (
+          <div data-reveal data-reveal-delay={(i % 3) * 100} class="group rounded-2xl bg-white p-7 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
+            <div class="flex items-center gap-3">
+              <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-navy-50 font-serif text-sm font-bold text-navy transition group-hover:bg-navy group-hover:text-white">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <h3 class="font-serif text-lg font-semibold text-navy">{item.t}</h3>
+            </div>
+            <p class="mt-3 text-sm leading-relaxed text-ink/70">{item.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection locale={locale} />
+</BaseLayout>

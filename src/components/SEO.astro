@@ -1,0 +1,51 @@
+---
+import { site } from '../data/site';
+import type { Locale } from '../data/site';
+
+export interface Props {
+  title: string;
+  description: string;
+  locale: Locale;
+  path: string;            // pathname WITHOUT locale prefix, e.g. "/" or "/about" or "/services/innovation"
+  image?: string;          // path to OG image, defaults to /og-image.svg (replace with .jpg/.png 1200x630 for max social compatibility)
+  type?: 'website' | 'article';
+}
+
+const { title, description, locale, path, image = '/og-image.svg', type = 'website' } = Astro.props;
+
+const url = site.url;
+const canonicalPath = locale === 'en' ? `/en${path === '/' ? '' : path}` : path;
+const canonical = `${url}${canonicalPath}`;
+
+// alternate locale path
+const altPath = locale === 'en' ? path : `/en${path === '/' ? '' : path}`;
+const altLocale: Locale = locale === 'en' ? 'sv' : 'en';
+
+const ogImage = `${url}${image}`;
+const hreflangSv = locale === 'sv' ? canonical : `${url}${altPath === '/en' ? '' : altPath}`.replace(/\/$/, '') || url;
+const hreflangEn = locale === 'en' ? canonical : `${url}${altPath}`;
+---
+<!-- primary meta -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+
+<!-- hreflang -->
+<link rel="alternate" hreflang="sv-SE" href={hreflangSv} />
+<link rel="alternate" hreflang="en-GB" href={hreflangEn} />
+<link rel="alternate" hreflang="x-default" href={`${url}${path === '/' ? '' : path}`} />
+
+<!-- open graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:locale" content={locale === 'sv' ? 'sv_SE' : 'en_GB'} />
+<meta property="og:site_name" content={site.name} />
+
+<!-- twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />

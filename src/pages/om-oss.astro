@@ -1,0 +1,138 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CTASection from '../components/CTASection.astro';
+import Icon from '../components/Icon.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getUI } from '../data/i18n';
+import { site } from '../data/site';
+
+const locale = 'sv' as const;
+const t = getUI(locale);
+const path = '/om-oss';
+const approachIcons = ['target', 'lightbulb', 'handshake', 'check', 'leaf'];
+---
+<BaseLayout locale={locale} path={path} title={`${t.about.heroTitle} | Strategic Ventures`} description={t.about.mission}>
+  <Breadcrumbs items={[{ label: t.nav.home, href: '/' }, { label: t.nav.about }]} />
+  <PageHero eyebrow={t.nav.about} title={t.about.heroTitle} subtitle={t.about.mission} />
+
+  <!-- Mission / Vision -->
+  <section class="bg-white">
+    <div class="mx-auto grid max-w-7xl gap-6 px-5 py-20 sm:px-8 lg:grid-cols-2">
+      <!-- Mission — navy soft card -->
+      <div data-reveal class="group relative overflow-hidden rounded-3xl border border-navy-100 bg-navy-50/50 p-10 transition hover:shadow-lg">
+        <div class="absolute inset-x-0 top-0 h-1 bg-navy" aria-hidden="true"></div>
+        <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-navy text-white transition group-hover:scale-110">
+          <Icon name="target" class="h-6 w-6" />
+        </div>
+        <h2 class="font-serif text-2xl font-semibold text-navy">{t.about.missionTitle}</h2>
+        <p class="mt-4 leading-relaxed text-ink/75">{t.about.mission}</p>
+      </div>
+      <!-- Vision — growth soft card -->
+      <div data-reveal data-reveal-delay="120" class="group relative overflow-hidden rounded-3xl border border-growth-100 bg-growth-50/40 p-10 transition hover:shadow-lg">
+        <div class="absolute inset-x-0 top-0 h-1 bg-growth" aria-hidden="true"></div>
+        <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-growth text-white transition group-hover:scale-110">
+          <Icon name="sparkles" class="h-6 w-6" />
+        </div>
+        <h2 class="font-serif text-2xl font-semibold text-navy">{t.about.visionTitle}</h2>
+        <p class="mt-4 leading-relaxed text-ink/75">{t.about.vision}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach -->
+  <section class="bg-gradient-to-b from-navy-50/40 to-white border-y border-navy-100">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 data-reveal class="font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.about.approachTitle}</h2>
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {t.about.approach.map((item, i) => (
+          <div data-reveal data-reveal-delay={i * 100} class="group rounded-2xl bg-white p-7 shadow-sm ring-1 ring-navy-100 transition hover:-translate-y-1 hover:shadow-xl">
+            <div class="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-sky-50 text-sky transition group-hover:scale-110 group-hover:bg-sky group-hover:text-white">
+              <Icon name={approachIcons[i] as any} class="h-6 w-6" />
+            </div>
+            <h3 class="font-serif text-lg font-semibold text-navy">{item.t}</h3>
+            <p class="mt-2 text-sm leading-relaxed text-ink/70">{item.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Values -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 data-reveal class="font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.about.valuesTitle}</h2>
+      </div>
+      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {t.values.map((v, i) => {
+          const colors = ['navy', 'growth', 'sky'];
+          const color = colors[i % 3];
+          const cardCls = color === 'navy'
+            ? 'border-navy-100 bg-navy-50/30 hover:border-navy'
+            : color === 'growth'
+            ? 'border-growth-100 bg-growth-50/30 hover:border-growth'
+            : 'border-sky-100 bg-sky-50/30 hover:border-sky';
+          const dotCls = color === 'navy' ? 'bg-navy' : color === 'growth' ? 'bg-growth' : 'bg-sky';
+          const titleCls = color === 'navy' ? 'text-navy' : color === 'growth' ? 'text-growth-700' : 'text-sky-700';
+          return (
+            <div data-reveal data-reveal-delay={(i % 3) * 80} class={`group rounded-2xl border p-6 transition hover:-translate-y-0.5 hover:shadow-md ${cardCls}`}>
+              <div class="flex items-center gap-2.5">
+                <span class={`inline-block h-2 w-2 rounded-full ${dotCls}`}></span>
+                <h3 class={`font-serif text-base font-semibold ${titleCls}`}>{v.name}</h3>
+              </div>
+              <p class="mt-2.5 text-sm leading-relaxed text-ink/70">{v.desc}</p>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <!-- Commitment — light gradient card, not heavy navy block -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-12 sm:px-8">
+      <div data-reveal class="relative overflow-hidden rounded-3xl border border-navy-100 bg-gradient-to-br from-navy-50/60 via-white to-sky-50/40 px-6 py-16 sm:px-16">
+        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+          <div class="absolute -right-20 -top-20 h-72 w-72 rounded-full bg-sky-100/60 blur-3xl"></div>
+          <div class="absolute -bottom-24 -left-20 h-72 w-72 rounded-full bg-growth-100/60 blur-3xl"></div>
+        </div>
+        <div class="relative mx-auto max-w-3xl text-center">
+          <div class="mb-6 flex items-center justify-center gap-2" aria-hidden="true">
+            <span class="h-2 w-2 rounded-full bg-navy"></span>
+            <span class="h-2 w-2 rounded-full bg-sky"></span>
+            <span class="h-2 w-2 rounded-full bg-growth"></span>
+          </div>
+          <Icon name="shield" class="mx-auto h-10 w-10 text-navy" />
+          <h2 class="mt-4 font-serif text-3xl font-semibold text-navy sm:text-4xl">{t.about.commitmentTitle}</h2>
+          <p class="mx-auto mt-5 max-w-2xl leading-relaxed text-ink/75">{t.about.commitment}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Founder placeholder -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div data-reveal class="grid items-center gap-12 lg:grid-cols-2">
+        <div class="order-2 lg:order-1">
+          <p class="text-xs font-semibold uppercase tracking-wider text-sky-600">{t.about.founderTitle}</p>
+          <h2 class="mt-2 font-serif text-3xl font-semibold text-navy sm:text-4xl">{site.founder.name}</h2>
+          <p class="mt-1 font-medium text-growth-700">{site.founder.role[locale]}</p>
+          <p class="mt-5 leading-relaxed text-ink/75">{site.founder.bio[locale]}</p>
+        </div>
+        <div class="order-1 lg:order-2">
+          <div class="group relative mx-auto aspect-square max-w-md rounded-3xl bg-gradient-to-br from-navy-100 via-sky-50 to-growth-50 p-1.5">
+            <div class="flex h-full w-full items-center justify-center rounded-[1.3rem] bg-white">
+              <Icon name="sparkles" class="h-24 w-24 text-navy-200 transition group-hover:scale-110" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTASection locale={locale} />
+</BaseLayout>

@@ -1,0 +1,126 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import Icon from '../components/Icon.astro';
+import { getUI } from '../data/i18n';
+import { services, t as tt } from '../data/services';
+import type { Locale } from '../data/site';
+
+export interface Props { slug: string; locale: Locale; }
+const { slug, locale } = Astro.props;
+const t = getUI(locale);
+const service = services.find((s) => s.slug === slug);
+if (!service) throw new Error(`Service "${slug}" not found`);
+
+const prefix = locale === 'en' ? '/en' : '';
+const servicesHub = `${prefix}${locale === 'en' ? '/services' : '/tjanster'}`;
+const path = `${locale === 'en' ? '/services' : '/tjanster'}/${slug}`;
+
+const colorMap = {
+  navy: { bg: 'bg-navy', soft: 'bg-navy-50', text: 'text-navy', ring: 'ring-navy-100' },
+  sky: { bg: 'bg-sky', soft: 'bg-sky-50', text: 'text-sky-600', ring: 'ring-sky-100' },
+  growth: { bg: 'bg-growth', soft: 'bg-growth-50', text: 'text-growth-600', ring: 'ring-growth-100' },
+};
+const c = colorMap[service.color];
+
+// related services (other pillars)
+const related = services.filter((s) => s.slug !== slug).slice(0, 3);
+
+// JSON-LD for this service
+const serviceJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: tt(service.name, locale),
+  description: tt(service.short, locale),
+  provider: { '@type': 'Organization', name: 'Strategic Ventures' },
+  areaServed: 'Global',
+};
+---
+<BaseLayout
+  locale={locale}
+  path={path}
+  title={`${tt(service.name, locale)} | Strategic Ventures`}
+  description={tt(service.short, locale)}
+>
+  <Breadcrumbs items={[
+    { label: t.nav.home, href: `${prefix}/` },
+    { label: t.nav.services, href: servicesHub },
+    { label: tt(service.name, locale) },
+  ]} />
+
+  <section class={`relative overflow-hidden bg-gradient-to-b from-white to-navy-50/60 border-b border-navy-100`}>
+    <div class="pointer-events-none absolute inset-0" aria-hidden="true">
+      <div class={`absolute -right-32 -top-24 h-96 w-96 rounded-full ${c.soft} opacity-50 blur-3xl`}></div>
+    </div>
+    <div class="relative mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20 text-center">
+      <div class={`mx-auto mb-6 inline-flex h-16 w-16 items-center justify-center rounded-2xl ${c.bg} text-white shadow-md`}>
+        <Icon name={service.icon} class="h-8 w-8" />
+      </div>
+      <h1 data-reveal class="font-serif text-4xl font-bold leading-[1.1] tracking-tight text-navy sm:text-5xl">
+        {tt(service.name, locale)}
+      </h1>
+      <p data-reveal data-reveal-delay="120" class="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-ink/75">{tt(service.intro, locale)}</p>
+    </div>
+  </section>
+
+  <!-- Sub-services -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-20 sm:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <p class={`text-xs font-semibold uppercase tracking-wider ${c.text}`}>{locale === 'sv' ? 'Våra erbjudanden' : 'What we offer'}</p>
+        <h2 data-reveal class="mt-2 font-serif text-3xl font-semibold text-navy sm:text-4xl">
+          {locale === 'sv' ? 'Detaljerade tjänster' : 'Detailed services'}
+        </h2>
+      </div>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-2">
+        {service.subservices.map((sub, i) => (
+          <div data-reveal data-reveal-delay={(i % 2) * 100} class={`group rounded-2xl border ${c.ring} bg-white p-7 transition hover:-translate-y-0.5 hover:shadow-lg`}>
+            <div class="flex items-start gap-4">
+              <span class={`mt-1 inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full ${c.soft} ${c.text} transition duration-300 group-hover:scale-110`}>
+                <Icon name="check" class="h-5 w-5" />
+              </span>
+              <div>
+                <h3 class="font-serif text-lg font-semibold text-navy">{tt(sub.title, locale)}</h3>
+                <p class="mt-2 text-sm leading-relaxed text-ink/70">{tt(sub.description, locale)}</p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing band -->
+  <section class={`${c.soft} border-y border-navy-100`}>
+    <div class="mx-auto max-w-4xl px-5 py-16 sm:px-8 sm:py-20 text-center">
+      <Icon name="target" class={`mx-auto h-10 w-10 ${c.text}`} />
+      <p data-reveal class="mx-auto mt-5 max-w-2xl font-serif text-xl leading-relaxed text-navy sm:text-2xl">
+        {tt(service.closing, locale)}
+      </p>
+    </div>
+  </section>
+
+  <!-- Related -->
+  <section class="bg-white">
+    <div class="mx-auto max-w-7xl px-5 py-16 sm:px-8">
+      <h2 data-reveal class="font-serif text-2xl font-semibold text-navy">{locale === 'sv' ? 'Fler tjänster' : 'More services'}</h2>
+      <div class="mt-6 grid gap-4 md:grid-cols-3">
+        {related.map((r, i) => (
+          <a data-reveal data-reveal-delay={i * 80} href={`${servicesHub}/${r.slug}`} class="group flex items-center gap-3 rounded-xl border border-navy-100 p-4 transition hover:-translate-y-0.5 hover:border-navy-200 hover:shadow-md">
+            <span class={`inline-flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-lg ${c.soft} ${c.text} transition duration-300 group-hover:scale-110`}>
+              <Icon name={r.icon} class="h-5 w-5" />
+            </span>
+            <span class="text-sm font-semibold text-navy">{tt(r.name, locale)}</span>
+            <Icon name="arrow-right" class="ml-auto h-4 w-4 text-navy-400 transition group-hover:translate-x-1 group-hover:text-navy" />
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CTASection locale={locale} />
+  <script type="application/ld+json" set:html={JSON.stringify(serviceJsonLd)} />
+</BaseLayout>

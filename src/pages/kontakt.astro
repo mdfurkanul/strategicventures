@@ -1,0 +1,134 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import { getUI } from '../data/i18n';
+import { site } from '../data/site';
+
+const locale = 'sv' as const;
+const t = getUI(locale);
+const path = '/kontakt';
+---
+<BaseLayout locale={locale} path={path} title={`${t.contact.title} | Strategic Ventures`} description={t.contact.subtitle}>
+  <Breadcrumbs items={[{ label: t.nav.home, href: '/' }, { label: t.nav.contact }]} />
+  <PageHero eyebrow={t.nav.contact} title={t.contact.title} subtitle={t.contact.subtitle} />
+
+  <section class="bg-white">
+    <div class="mx-auto grid max-w-7xl gap-12 px-5 py-20 sm:px-8 lg:grid-cols-5">
+      <!-- Contact info -->
+      <div class="lg:col-span-2">
+        <p class="text-sm font-semibold uppercase tracking-wider text-sky-600">{t.contact.callCta}</p>
+        <h2 class="mt-2 font-serif text-2xl font-semibold text-navy">{site.name}</h2>
+
+        <ul class="mt-8 space-y-6">
+          <li>
+            <a href={`mailto:${site.contact.email}`} class="group flex items-start gap-4">
+              <span class="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-navy-50 text-navy transition group-hover:bg-navy group-hover:text-white">
+                <Icon name="mail" class="h-5 w-5" />
+              </span>
+              <span>
+                <span class="block text-xs font-medium uppercase tracking-wider text-ink/50">Email</span>
+                <span class="block break-all font-medium text-navy group-hover:underline">{site.contact.email}</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a href={`tel:${site.contact.phone.replace(/[^+\d]/g, '')}`} class="group flex items-start gap-4">
+              <span class="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-sky-50 text-sky transition group-hover:bg-sky group-hover:text-white">
+                <Icon name="phone" class="h-5 w-5" />
+              </span>
+              <span>
+                <span class="block text-xs font-medium uppercase tracking-wider text-ink/50">{locale === 'sv' ? 'Telefon' : 'Phone'}</span>
+                <span class="block font-medium text-navy group-hover:underline">{site.contact.phone}</span>
+              </span>
+            </a>
+          </li>
+          <li class="flex items-start gap-4">
+            <span class="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-growth-50 text-growth">
+              <Icon name="map" class="h-5 w-5" />
+            </span>
+            <span>
+              <span class="block text-xs font-medium uppercase tracking-wider text-ink/50">{locale === 'sv' ? 'Adress' : 'Address'}</span>
+              <span class="block font-medium text-navy">{site.contact.address}</span>
+            </span>
+          </li>
+          <li>
+            <a href={site.contact.linkedin} class="group flex items-start gap-4">
+              <span class="inline-flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl bg-navy-50 text-navy transition group-hover:bg-navy group-hover:text-white">
+                <Icon name="linkedin" class="h-5 w-5" />
+              </span>
+              <span>
+                <span class="block text-xs font-medium uppercase tracking-wider text-ink/50">LinkedIn</span>
+                <span class="block font-medium text-navy group-hover:underline">Strategic Ventures</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Form -->
+      <div class="lg:col-span-3">
+        <div class="rounded-3xl border border-navy-100 bg-navy-50/30 p-8 sm:p-10">
+          <h2 class="font-serif text-2xl font-semibold text-navy">{t.contact.formTitle}</h2>
+          <form id="contact-form" class="mt-6 space-y-5">
+            <div class="grid gap-5 sm:grid-cols-2">
+              <label class="block">
+                <span class="block text-sm font-medium text-navy">{t.contact.name}</span>
+                <input type="text" name="name" required class="mt-1.5 w-full rounded-xl border border-navy-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-navy focus:ring-2 focus:ring-navy-100" />
+              </label>
+              <label class="block">
+                <span class="block text-sm font-medium text-navy">{t.contact.email}</span>
+                <input type="email" name="email" required class="mt-1.5 w-full rounded-xl border border-navy-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-navy focus:ring-2 focus:ring-navy-100" />
+              </label>
+            </div>
+            <label class="block">
+              <span class="block text-sm font-medium text-navy">{t.contact.company}</span>
+              <input type="text" name="company" class="mt-1.5 w-full rounded-xl border border-navy-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-navy focus:ring-2 focus:ring-navy-100" />
+            </label>
+            <label class="block">
+              <span class="block text-sm font-medium text-navy">{t.contact.message}</span>
+              <textarea name="message" rows="5" required class="mt-1.5 w-full rounded-xl border border-navy-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-navy focus:ring-2 focus:ring-navy-100"></textarea>
+            </label>
+            <input type="hidden" name="locale" value={locale} />
+            <input type="hidden" name="_site" value="strategicventures" />
+            <button type="submit" class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-navy px-6 py-3 text-sm font-semibold text-white shadow-md transition hover:bg-navy-700 sm:w-auto">
+              <span id="submit-label">{t.contact.send}</span>
+              <span id="submit-spinner" class="hidden">↻</span>
+            </button>
+            <p id="form-success" class="hidden rounded-xl bg-growth-50 px-4 py-3 text-sm font-medium text-growth-700"></p>
+            <p id="form-error" class="hidden rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700"></p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<script is:inline define:vars={{ endpoint: site.contact.formEndpoint, t_success: t.contact.success, t_error: t.contact.error, t_sending: t.contact.sending, t_send: t.contact.send }}>
+  const form = document.getElementById('contact-form');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const label = document.getElementById('submit-label');
+    const spinner = document.getElementById('submit-spinner');
+    const success = document.getElementById('form-success');
+    const error = document.getElementById('form-error');
+    success?.classList.add('hidden');
+    error?.classList.add('hidden');
+    if (label) label.textContent = t_sending;
+    try {
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      if (!res.ok) throw new Error('Bad response');
+      if (success) { success.textContent = t_success; success.classList.remove('hidden'); }
+      form.reset();
+    } catch (err) {
+      if (error) { error.textContent = t_error; error.classList.remove('hidden'); }
+    } finally {
+      if (label) label.textContent = t_send;
+    }
+  });
+</script>

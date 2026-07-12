@@ -1,0 +1,27 @@
+---
+import { site } from '../data/site';
+export interface Props { class?: string; variant?: 'full' | 'mark'; }
+const { class: cls = '', variant = 'full' } = Astro.props;
+---
+<a href="/" class={`group inline-flex items-center gap-3 ${cls}`} aria-label={site.name}>
+  <span class="inline-flex h-10 w-10 items-center justify-center">
+    <!-- Three-interlocking-figures mark derived from logo -->
+    <svg viewBox="0 0 64 64" class="h-10 w-10" aria-hidden="true">
+      <circle cx="32" cy="32" r="31" fill="none" />
+      <g transform="translate(32 32)">
+        <circle cx="0" cy="-14" r="7" fill="#6BBE44" />
+        <circle cx="12" cy="7" r="7" fill="#34B5E5" />
+        <circle cx="-12" cy="7" r="7" fill="#2A3A8F" />
+        <path d="M0 -7 L0 0 M10 0 L3 0 M-10 0 L-3 0" stroke="#0f172a" stroke-width="1.5" opacity="0.2" fill="none" />
+      </g>
+    </svg>
+  </span>
+  {
+    variant === 'full' && (
+      <span class="flex flex-col leading-none">
+        <span class="font-serif text-base font-bold tracking-tight text-navy">STRATEGIC VENTURES</span>
+        <span class="text-[10px] font-medium uppercase tracking-[0.22em] text-navy-400">Connecting Opportunities</span>
+      </span>
+    )
+  }
+</a>

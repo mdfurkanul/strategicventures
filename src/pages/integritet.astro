@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { getUI } from '../data/i18n';
+const locale = 'sv' as const;
+const t = getUI(locale);
+const path = '/integritet';
+const paragraphs = t.privacy.body.trim().split(/\n\n+/);
+function formatBlock(block: string) {
+  if (block.startsWith('## ')) return { type: 'h2', text: block.replace(/^## /, '') };
+  return { type: 'p', text: block };
+}
+---
+<BaseLayout locale={locale} path={path} title={`${t.privacy.title} | Strategic Ventures`} description={t.privacy.body.split(/\n/)[0]}>
+  <Breadcrumbs items={[{ label: t.nav.home, href: '/' }, { label: t.footer.privacy }]} />
+  <section class="bg-white">
+    <div class="mx-auto max-w-3xl px-5 py-20 sm:px-8">
+      <p class="text-xs font-medium uppercase tracking-wider text-ink/50">{t.privacy.updated}: {new Date().toISOString().slice(0,10)}</p>
+      <h1 class="mt-2 font-serif text-4xl font-bold text-navy sm:text-5xl">{t.privacy.title}</h1>
+      <div class="prose prose-lg mt-10 max-w-none">
+        {paragraphs.map((b) => {
+          const block = formatBlock(b);
+          return block.type === 'h2'
+            ? <h2 class="mt-10 font-serif text-2xl font-semibold text-navy">{block.text}</h2>
+            : <p class="mt-4 leading-relaxed text-ink/80">{block.text}</p>;
+        })}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
