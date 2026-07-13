@@ -10,8 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && wrangler pages deploy dist",
-    "deploy:preview": "astro build && wrangler pages deploy dist --branch preview",
+    "pages:setup": "wrangler pages project create strategic-ventures --production-branch=main",
+    "deploy": "astro build && wrangler pages deploy dist --project-name=strategic-ventures --branch=main",
+    "deploy:preview": "astro build && wrangler pages deploy dist --project-name=strategic-ventures --branch=preview",
     "pages:dev": "astro build && wrangler pages dev dist"
   },
   "dependencies": {
