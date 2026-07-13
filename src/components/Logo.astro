@@ -3,10 +3,10 @@ import { site } from '../data/site';
 export interface Props { class?: string; variant?: 'full' | 'mark'; }
 const { class: cls = '', variant = 'full' } = Astro.props;
 ---
-<a href="/" class={`group inline-flex items-center gap-3 ${cls}`} aria-label={site.name}>
-  <span class="inline-flex h-10 w-10 items-center justify-center">
+<a href="/" class={`group inline-flex items-center gap-2 sm:gap-3 ${cls}`} aria-label={site.name}>
+  <span class="inline-flex h-8 w-8 items-center justify-center sm:h-10 sm:w-10">
     <!-- Three-interlocking-figures mark derived from logo -->
-    <svg viewBox="0 0 64 64" class="h-10 w-10" aria-hidden="true">
+    <svg viewBox="0 0 64 64" class="h-8 w-8 sm:h-10 sm:w-10" aria-hidden="true">
       <circle cx="32" cy="32" r="31" fill="none" />
       <g transform="translate(32 32)">
         <circle cx="0" cy="-14" r="7" fill="#6BBE44" />
@@ -19,8 +19,8 @@ const { class: cls = '', variant = 'full' } = Astro.props;
   {
     variant === 'full' && (
       <span class="flex flex-col leading-none">
-        <span class="font-serif text-base font-bold tracking-tight text-navy">STRATEGIC VENTURES</span>
-        <span class="text-[10px] font-medium uppercase tracking-[0.22em] text-navy-400">Connecting Opportunities</span>
+        <span class="font-serif text-[11px] font-bold tracking-tight text-navy sm:text-base">STRATEGIC VENTURES</span>
+        <span class="text-[8px] font-medium uppercase tracking-[0.22em] text-navy-400 sm:text-[10px]">Connecting Opportunities</span>
       </span>
     )
   }

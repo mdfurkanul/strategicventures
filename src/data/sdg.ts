@@ -104,6 +104,7 @@ export const goals: Goal[] = [
     num: 9,
     unNum: 14,
     color: 'growth',
+    icon: 'leaf',
     title: { sv: 'Hav & marina resurser', en: 'Life below water' },
     desc: {
       sv: 'Vi stödjer hållbara värdekedjor som skyddar marina ekosystem.',
@@ -114,6 +115,7 @@ export const goals: Goal[] = [
     num: 10,
     unNum: 15,
     color: 'navy',
+    icon: 'wheat',
     title: { sv: 'Livet på land', en: 'Life on land' },
     desc: {
       sv: 'Vi främjar biologisk mångfald och ansvarsfull markanvändning i projekt och supply chains.',
@@ -124,6 +126,7 @@ export const goals: Goal[] = [
     num: 11,
     unNum: 16,
     color: 'sky',
+    icon: 'shield',
     title: { sv: 'Fred, rättvisa & styrning', en: 'Peace, justice & strong institutions' },
     desc: {
       sv: 'Vi stödjer etiska affärsmetoder, transparens och god bolagsstyrning.',
@@ -134,6 +137,7 @@ export const goals: Goal[] = [
     num: 12,
     unNum: 17,
     color: 'growth',
+    icon: 'handshake',
     title: { sv: 'Partnerskap för målen', en: 'Partnerships for the goals' },
     desc: {
       sv: 'Vi förbinder företag, forskning, investerare och offentlig sektor — såklart.',

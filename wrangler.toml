@@ -1,0 +1,18 @@
+# Cloudflare Pages config for the Strategic Ventures static site.
+#
+# Deploy from the /site directory:
+#   npm run build && npx wrangler pages deploy dist
+#
+# Or connect this repo to Cloudflare Pages in the dashboard and use:
+#   Build command:   npm run build
+#   Output directory: dist
+#
+# The contact form has its own worker — see worker/wrangler.toml.
+
+name = "strategic-ventures"
+pages_build_output_dir = "dist"
+compatibility_date = "2025-01-01"
+
+# Optional: custom domain is configured in the Cloudflare dashboard,
+# not here. Once the project exists, attach www.strategicventures.se
+# (or your real domain) under Pages → Custom domains.
